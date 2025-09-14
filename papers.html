@@ -1,18 +1,870 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html><head>
-<meta http-equiv="content-type" content="text/html; charset=windows-1252">
-<title>Gabriel Istrate</title>
-<script>(function(){class RuffleMimeType{constructor(a,b,c){this.type=a,this.description=b,this.suffixes=c}}class RuffleMimeTypeArray{constructor(a){this.__mimetypes=[],this.__named_mimetypes={};for(let b of a)this.install(b)}install(a){let b=this.__mimetypes.length;this.__mimetypes.push(a),this.__named_mimetypes[a.type]=a,this[a.type]=a,this[b]=a}item(a){return this.__mimetypes[a]}namedItem(a){return this.__named_mimetypes[a]}get length(){return this.__mimetypes.length}}class RufflePlugin extends RuffleMimeTypeArray{constructor(a,b,c,d){super(d),this.name=a,this.description=b,this.filename=c}install(a){a.enabledPlugin||(a.enabledPlugin=this),super.install(a)}}class RufflePluginArray{constructor(a){this.__plugins=[],this.__named_plugins={};for(let b of a)this.install(b)}install(a){let b=this.__plugins.length;this.__plugins.push(a),this.__named_plugins[a.name]=a,this[a.name]=a,this[b]=a}item(a){return this.__plugins[a]}namedItem(a){return this.__named_plugins[a]}get length(){return this.__plugins.length}}const FLASH_PLUGIN=new RufflePlugin("Shockwave Flash","Shockwave Flash 32.0 r0","ruffle.js",[new RuffleMimeType("application/futuresplash","Shockwave Flash","spl"),new RuffleMimeType("application/x-shockwave-flash","Shockwave Flash","swf"),new RuffleMimeType("application/x-shockwave-flash2-preview","Shockwave Flash","swf"),new RuffleMimeType("application/vnd.adobe.flash-movie","Shockwave Flash","swf")]);function install_plugin(a){navigator.plugins.install||Object.defineProperty(navigator,"plugins",{value:new RufflePluginArray(navigator.plugins),writable:!1}),navigator.plugins.install(a),0<a.length&&!navigator.mimeTypes.install&&Object.defineProperty(navigator,"mimeTypes",{value:new RuffleMimeTypeArray(navigator.mimeTypes),writable:!1});for(var b=0;b<a.length;b+=1)navigator.mimeTypes.install(a[b])}install_plugin(FLASH_PLUGIN);})();</script><script src="papers_files/ruffle.js"></script></head>
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Papers</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #000000 0%, #000000 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            backdrop-filter: blur(10px);
+        }
+        
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+            background: linear-gradient(45deg, #000000, #000000);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .filters {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+            margin-bottom: 20px;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 5px;
+            backdrop-filter: blur(5px);
+        }
+        
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .filter-group label {
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #555;
+        }
+        
+        select, input {
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            background: white;
+        }
+        
+        select:focus, input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        .reset-btn {
+            padding: 10px 20px;
+            background: linear-gradient(45deg, #000000, #000000);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: transform 0.2s ease;
+            align-self: flex-end;
+        }
+        
+        .reset-btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        .papers-count {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+            color: #666;
+        }
+        
+        .paper {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            border-left: 5px solid #667eea;
+        }
+        
+        .paper:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+        }
+        
+        .paper-title {
+            color: #088F8F;
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+            background: linear-gradient(45deg, #088F8F, #5F9EA0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.3;
+        }
+        
+        .paper-authors {
+            font-style: italic;
+            color: #666;
+            margin-bottom: 8px;
+            font-size: 1.05rem;
+        }
+        
+        .paper-details {
+            color: #888;
+            margin-bottom: 15px;
+            font-size: 0.95rem;
+        }
+        
+        .paper-meta {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .badge {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        
+        .badge-importance {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+            color: white;
+        }
+        
+        .badge-type {
+            background: linear-gradient(45deg, #4834d4, #686de0);
+            color: white;
+        }
+        
+        .badge-year {
+            background: linear-gradient(45deg, #00d2d3, #01a3a4);
+            color: white;
+        }
+        
+        .badge-topic {
+            background: linear-gradient(45deg, #26de81, #20bf6b);
+            color: white;
+        }
+        
+        .abstract-toggle {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 4px 8px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .abstract-toggle:hover {
+            transform: scale(1.05);
+        }
+        
+        .abstract {
+            background: rgba(102, 126, 234, 0.05);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            border-left: 3px solid #667eea;
+            display: none;
+            line-height: 1.6;
+        }
+        
+        .abstract.show {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .links {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .link {
+            padding: 2px 4px;
+            text-decoration: none;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .link-official {
+            background: linear-gradient(45deg, #000000, #2f3542);
+            color: white;
+        }
+        
+        .link-free {
+            background: linear-gradient(45deg, #000000, #2f3542);
+            color: white;
+        }
+        
+        .link-video {
+            background: linear-gradient(45deg, #000000, #ff3838);
+            color: white;
+        }
+        
+        .link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .no-papers {
+            text-align: center;
+            color: #888;
+            font-size: 1.2rem;
+            margin: 40px 0;
+            padding: 40px;
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+                margin: 10px;
+            }
+            
+            .filters {
+                grid-template-columns: 1fr;
+            }
+            
+            .paper-meta {
+                flex-direction: column;
+                gap: 8px;
+            }
+            
+            .links {
+                flex-direction: column;
+            }
+            
+            .link {
+                text-align: center;
+            }
+        }
+    </style>
+</head>
 <body>
+    <div class="container">
+        <h1>My Publications (under construction!)</h1>
+        
+        <div class="filters">
+            <div class="filter-group">
+                <label for="importance">Importance:</label>
+                <select id="importance">
+                    <option value="all">All papers</option>
+                    <option value="top10">Top 10 papers</option>
+                </select>
+            </div>
+            
+            <div class="filter-group">
+                <label for="type">Publication Type:</label>
+                <select id="type">
+                    <option value="all">All types</option>
+                    <option value="Book">Book</option>
+		    <option value="Chapter in Book">Chapter in Book</option>
+                    <option value="Journal Paper">Journal Paper</option>
+                    <option value="Conference Paper">Conference Paper</option>
+                    <option value="Tech Report">Tech Report</option>
+                </select>
+            </div>
+            
+            <div class="filter-group">
+                <label for="year">Year:</label>
+                <select id="year">
+                    <option value="all">All years</option>
+                </select>
+            </div>
+            
+            <div class="filter-group">
+                <label for="topic">Topic:</label>
+                <select id="topic">
+                    <option value="all">All topics</option>
+                </select>
+            </div>
+            
+            <div class="filter-group">
+                <button class="reset-btn" onclick="resetFilters()">Reset Filters</button>
+            </div>
+        </div>
+        
+        <div class="papers-count" id="papersCount"></div>
+        
+        <div id="papersContainer"></div>
+        
+        <div class="no-papers" id="noPapers" style="display: none;">
+            No papers match the current filters.
+        </div>
+    </div>
 
-<!-- This document was automatically generated with bibtex2html 1.99
-     (see http://www.lri.fr/~filliatr/bibtex2html/),
-     with the following command:
-     bibtex2html -t "David Monniaux" David_Monniaux.bib  -->
+    <script>
+        // Sample paper data - in chronological order (earliest first)
+        const papers = [
+            {
+                id: 1,
+                title: "On a problem about contextual languages",
+                authors: "Gabriel Istrate",
+                year: 1989,
+                type: "Journal Paper",
+                topic: "Formal Languages",
+                venue: "Bulletin Mathematique de la Societe des Sciences Mathematiques de Roumanie",
+                volume: "vol. 33(81), no.4, pp. 335-338",
+                isTop10: false,
+                abstract: "We.",
+                links: {
+                    official: "https://www.jstor.org/stable/43678281",
+                    free: ""
+                
+                }
+            },
+	    {
+                id: 2,
+                title: "Topological size of the set of Boolean-valued partial recursive functions",
+                authors: "Gabriel Istrate",
+                year: 1989,
+                type: "Journal Paper",
+                topic: "Computability Theory",
+                venue: "Analele Univ. București, Mat.-Info.",
+                volume: "vol. 54, no. 8, pp. 1-36",
+                isTop10: false,
+                abstract: "We.",
+                links: {
+                    official: "",
+                    free: "",
+                    video: ""
+                }
+            },
+	    {
+                id: 3,
+                title: "On two generalizations of the Darboux property",
+                authors: "Gabriel Istrate",
+                year: 1991,
+                type: "Journal Paper",
+                topic: "Real Analysis",
+                venue: "Real Analysis Exchange",
+                volume: "17 (2), 535-544",
+                isTop10: false,
+                abstract: "We.",
+                links: {
+                    official: "https://projecteuclid.org/journals/real-analysis-exchange/volume-17/issue-2/ON-TWO-GENERALIZATIONS-OF-THE-DARBOUX-PROPERTY/10.2307/44153747.pdf"
+                    
+                }
+            },
+	     {
+                id: 4,
+                title: "Determining and stationary sets for some classes of partial recursive functions",
+                 authors: "Gabriel Istrate, Cristian Calude",
+                year: 1991,
+                type: "Journal Paper",
+                topic: "Computability Theory",
+                venue: "Theoretical Computer Science",
+                volume: "82 (1), 151-155",
+                isTop10: false,
+                abstract: "We.",
+                links: {
+                    official: "https://www.sciencedirect.com/science/article/pii/0304397591901785/pdf?md5=6ece1ba592f7249006fc73b68e1c9d18&pid=1-s2.0-0304397591901785-main.pdf&_valck=1"
+                    
+                }
+            },
+            {
+                id: 5,
+                title: "Recursive Baire classification and speedable functions",
+                authors: "Gabriel Istrate, Cristian Calude, Marius Zimand",
+                year: 1992,
+                type: "Journal Paper",
+                topic: "Computability Theory",
+                venue: "Zeischr. fur Math. Logik und Grundlagen d. Math.",
+                volume: "38, 169-178",
+                isTop10: false,
+                abstract: "Using recursive variants of Baire notions of nowhere dense and meagre sets we study the topological size of speedable and infinitely often speedable functions in a machine-independent framework. We show that the set of speedable functions is not “small” whereas the set of infinitely often speedable functions is “large”. In this way we offer partial answers to a question in [4]",
+                links: {
+                    official: "https://onlinelibrary.wiley.com/doi/abs/10.1002/malq.19920380112",
+		    free: "https://calude.net/cristianscalude/cristianAssets/pdf/BaireSpeedable.pdf",
+                    
+                }
+            },
+	    {
+                id: 6,
+                title: "Self-reading sequences",
+                authors: "Gabriel Istrate",
+                year: 1994,
+                type: "Journal Paper",
+                topic: "Combinatorics on Words",
+                venue: "Discrete Applied Mathematics",
+                volume: "50(2), 201-203",
+                isTop10: false,
+                abstract: "",
+                links: {
+                    official: "https://doi.org/10.1016/0166-218X(94)90087-6",
+		    free: "",
+                    
+                }
+            },
+	    {
+                id: 7,
+                title: "Some combinatorial properties of self-reading sequences",
+                authors: "Gabriel Istrate, Gheorghe Paun",
+                year: 1994,
+                type: "Journal Paper",
+                topic: "Combinatorics on Words",
+                venue: "Discrete Applied Mathematics",
+                volume: "38, 169-178",
+                isTop10: false,
+                abstract: "",
+                links: {
+                    official: "https://www.sciencedirect.com/science/article/pii/0166218X9490037X",
+		    
+                    
+                }
+            },
+	    {
+                id: 8,
+                title: "Sums of continuous and Darboux functions",
+                authors: "Gabriel Istrate",
+                year: 1995,
+                type: "Journal Paper",
+                topic: "Real Analysis",
+                venue: "Real Analysis Exchange",
+                volume: "20(2),842-846",
+                isTop10: false,
+                abstract: "",
+                links: {
+                    official: "https://projecteuclid.org/journals/real-analysis-exchange/volume-20/issue-2/SUMS-OF-CONTINUOUS-AND-DARBOUX-FUNCTIONS/10.2307/44152567.pdf",
+		    
+                    
+                }
+            },
+	    {
+                id: 9,
+                title: "Some remarks on almost periodic sequences and languages",
+                authors: "Gabriel Istrate",
+                year: 1995,
+                type: "Journal Paper",
+                topic: "Formal Languages",
+                venue: "Mathematical Linguistics and Related Topics. Paper in the honor of Solomon Marcus's 70'th Birthday",
+                volume: "Gh. Paun (ed.). Editura Academiei Romane, 191-194.",
+                isTop10: false,
+                abstract: "",
+                links: {
+                    free: "https://arxiv.org/pdf/2211.14613",
+		    
+                    
+                }
+            },
+	    {
+                id: 10,
+                title: "Resource-bounded measure and autoreducibility",
+                authors: "Gabriel Istrate",
+                year: 1996,
+                type: "Tech Report",
+                topic: "Computational Complexity",
+                venue: "University of Rochester",
+                volume: "URCS-TR 644",
+                isTop10: false,
+                abstract: "",
+                links: {
+                    free: "http://hdl.handle.net/1802/660",
+		    
+                    
+                }
+            },
+	    {
+                id: 11,
+                title: "Looking for a version of Schaefer's Dichotomy Theorem when each variable occurs at most twice",
+                authors: "Gabriel Istrate",
+                year: 1997,
+                type: "Tech Report",
+                topic: "Computational Complexity",
+                venue: "University of Rochester",
+                volume: "URCS-TR 662",
+                isTop10: true,
+                abstract: "",
+                links: {
+                    free: "http://hdl.handle.net/1802/666",
+		    
+                    
+                }
+            },
+	    {
+                id: 12,
+                title: "The strong equivalence of ET0L grammars",
+                authors: "Gabriel Istrate",
+                year: 1997,
+                type: "Journal Paper",
+                topic: "Formal Languages",
+                venue: "Information Processing Letters",
+                volume: "62(4),171-176",
+                isTop10: false,
+                abstract: "",
+                links: {
+                    official: "https://doi.org/10.1016/S0020-0190(97)00067-7",
+		    
+                    
+                }
+            },
+	     {
+                id: 13,
+                title: "Counting, Structure Identification and Maximum Consistency for Binary Constraint Satisfaction Problems",
+                authors: "Gabriel Istrate",
+                year: 1997,
+                type: "Conference Paper",
+                topic: "Computational Complexity",
+                 venue: "Proceedings of the Third International Conference on the Principles and Practice of Constraint Programming (CP'97), Linz, Austria",
+                 volume: "Gerd Smolka (ed.), Lecture Notes in Computer Science 1330, 136-149, Springer Verlag",
+                isTop10: false,
+                abstract: "",
+                links: {
+                    official: "https://link.springer.com/chapter/10.1007/BFb0017435",
+		    
+                    
+                }
+             },
+	    {
+                id: 14,
+                title: "A note of bounded-weight error-correcting codes",
+                authors: "Russell Bent, Michael Schear, Lane Hemaspaandra, Gabriel Istrate",
+                year: 1999,
+                type: "Journal Paper",
+                topic: "Coding Theory",
+                 venue: "Journal of Universal Computer Science",
+                volume: "5(12),817-827",
+                isTop10: false,
+                abstract: "This paper computationally obtains optimal bounded-weight, binary, error-correcting codes for a variety of distance bounds and dimensions. We compare the sizes of our codes to the sizes of optimal constant-weight, binary, error-correcting codes, and evaluate the differences.",
+                links: {
+                    official: "https://www.jucs.org/jucs_5_12/a_note_on_bounded/Bent_R.pdf",
+		    
+                    
+                }
+            },
+	     {
+                id: 15,
+                title: "Computational Complexity and Phase Transitions",
+                authors: "Gabriel Istrate",
+                year: 2000,
+                type: "Conference Paper",
+                topic: "Phase Transitions",
+                 venue: "Proceedings 15th Annual IEEE Conference on Computational Complexity (CCC'00)",
+                volume: "104-115",
+                isTop10: false,
+                abstract: "Phase transitions in combinatorial problems have recently been shown to be useful in locating 'hard' instances of combinatorial problems. The connection between computational complexity and the existence of phase transitions has been addressed in statistical mechanics and artificial intelligence, but not studied rigorously. We take a first step in this direction by investigating the existence of sharp thresholds for the class of generalized satisfiability problems, defined by T.J. Schaefer (1978). In the case when all constraints have a special clausal form we completely characterize the generalized satisfiability problems that have a sharp threshold. While NP-completeness does not imply the sharpness of the threshold, our result suggests that the class of counter examples is rather limited, as all such counter examples can be predicted, with constant success probability by a single procedure.",
+                links: {
+                    official: "https://ieeexplore.ieee.org/abstract/document/856740",
+		    
+                    
+                }
+             },
+	    {
+                id: 16,
+                title: "Convergence of the iterated prisoner's dilemma game",
+                authors: "Martin Dyer, Leslie Ann Goldberg, Catherine Greenhill, Gabriel Istrate, Mark Jerrum",
+                year: 2002,
+                type: "Journal Paper",
+                topic: "Markov Chains",
+                venue: "Combinatorics, Probability and Computing",
+                volume: "11(2), 135-147",
+                isTop10: false,
+                abstract: "We consider a stochastic process based on the iterated prisoner's dilemma game. During the game, each of n players has a state, either cooperate or defect. The players are connected by an ‘interaction graph’. During each step of the process, an edge of the graph is chosen uniformly at random and the states of the players connected by the edge are modified according to the Pavlov strategy. The process converges to a unique absorbing state in which all players cooperate. We prove two conjectures of Kittock: the convergence rate is exponential in n when the interaction graph is a complete graph, and it is polynomial in n when the interaction graph is a cycle. In fact, we show that the rate is O(n log n) in the latter case.",
+                links: {
+                    official: "https://doi.org/10.1017/S096354830100503X",
+		    free: "https://web.maths.unsw.edu.au/~csg/papers/prisoner.pdf"
+		    
+                    
+                }
+            },
 
-<h1>Gabriel Istrate</h1>
+	     {
+                id: 17,
+                title: "The phase transition in 1-in-k SAT and NAE 3-SAT",
+                authors: "Dimitris Achlioptas, Arthur Chtcherba, Gabriel Istrate, Cristopher Moore",
+                year: 2001,
+                type: "Conference Paper",
+                topic: "Phase Transitions",
+                venue: "Proceedings of SODA'2001, the ACM-SIAM Symposium on Discrete Algorithms",
+                volume: "11(2), 135-147",
+                isTop10: true,
+                abstract: "Determining bounds for the random k-SAT threshold has been an active area of research in recent years [1, 3]. Yet, in spite of significant efforts, neither a tight analysis nor the structural properties of this threshold have been determined. In this paper we study random instances of two other canonical variations of satisfiability, 1-in-k SAT and Not-All-Equal 3-SAT. Like random k-SAT, each generative model has one parameter c= m/n, the ratio of clauses to variables. Also similarly to random k-SAT, we focus on  'threshold phenomena' occurring in these models and how they might relate to computational hardness.",
+                links: {
+                    official: "",
+		    free: "https://www.researchgate.net/profile/Cristopher-Moore-2/publication/2400280_The_phase_transition_in_1-in-k_SAT_and_NAE_3-SAT/links/09e41508553c00f9e1000000/The-phase-transition-in-1-in-k-SAT-and-NAE-3-SAT.pdf"
+		    
+                    
+                }
+             },
+	    {
+                id: 18,
+                title: "The phase transition in random Horn satisfiability and its algorithmic implications",
+                authors: "Gabriel Istrate",
+                year: 2002,
+                type: "Journal Paper",
+                topic: "Phase Transitions",
+                venue: "Random Structures and Algorithms",
+                volume: "20(4), 483-506",
+                isTop10: true,
+                abstract: "",
+                links: {
+                    official: "https://onlinelibrary.wiley.com/doi/abs/10.1002/rsa.10028",
+		    free: ""
+		    
+                    
+                }
+            },
+	     {
+                id: 20,
+                title: "AdHopNET: Integrated Tool for End-to-End Analysis of Extremely Large Next Generation Communication Networks",
+                authors: "K.A. Atkins, C.L. Barret, R.J. Beckman, S.G. Eubank, N.W. Hengarter, G. Istrate, A.V.S. Kumar, M.V. Marathe, H.S. Mortveit, C.M. Reidys, P.R. Romero, R.A. Pistone, J.P. Smith, P.E. Stretz, C.D. Engelhart, M. Droza, M.M. Morin, S.S. Pathak, S. Zust, S.S. Ravi",
+                year: 2003,
+                type: "Tech Report",
+                topic: "Engineering",
+                venue: "Los Alamos National Laboratory",
+                volume: "Technical reports LA-UR-03-2076 and LA-UR-03-2077,",
+                isTop10: false,
+                abstract: "",
+                links: {
+                    official: "https://lanl-primo.hosted.exlibrisgroup.com/primo-explore/fulldisplay?docid=01LANL_ALMA51106355480003761&context=L&vid=LANL&lang=en_US&search_scope=default_scope&adaptor=Local%20Search%20Engine&tab=default_tab&query=any,contains,Gabriel%20Istrate&offset=10"
+		  
+		    
+                    
+                }
+             },
+	    {
+                id: 21,
+                title: "On the satisfiability of random k-Horn formulae",
+                authors: "Gabriel Istrate",
+                year: 2004,
+                type: "Chapter in Book",
+                topic: "Phase Transitions",
+                venue: "Graphs, Morphisms, and Statistical Physics: Proceedings of the DIMACS Workshop on Graphs, Morphisms and Statistical Physics, March 19-21, 2001, DIMACS Center",
+                volume: "DIMACS Series in Discrete Mathematics and Theoretical Computer Science, vol. 63, 113-137",
+                isTop10: false,
+                abstract: " ",
+                links: {
+                    free: "https://arxiv.org/abs/cs/0007029v2"   
+                }
+            },
+	        {
+                id: 22,
+                title: "Spines of random constraint satisfaction problems: definition and connection with computational complexity",
+                    authors: "Gabriel Istrate, Stefan Boettcher and Allon G. Percus",
+                year: 2005,
+                type: "Journal Paper",
+                topic: "Phase Transitions",
+                venue: "Annals of Mathematics and Artificial Intelligence",
+                    volume: "44, 353-372",
+                isTop10: false,
+                abstract: "We study the connection between the order of phase transitions in combinatorial problems and the complexity of decision algorithms for such problems. We rigorously show that, for a class of random constraint satisfaction problems, a limited connection between the two phenomena indeed exists. Specifically, we extend the definition of the spine order parameter of Bollobás et al. [10] to random constraint satisfaction problems, rigorously showing that for such problems a discontinuity of the spine is associated with a $2^\Omega(n)$ resolution complexity (and thus a $2^\Omega(n)$ complexity of DPLL algorithms) on random instances. The two phenomena have a common underlying cause: the emergence of 'large' (linear size) minimally unsatisfiable subformulas of a random formula at the satisfiability phase transition. We present several further results that add weight to the intuition that random constraint satisfaction problems with a sharp threshold and a continuous spine are 'qualitatively similar to random 2-SAT'. Finally, we argue that it is the spine rather than the backbone parameter whose continuity has implications for the decision complexity of combinatorial problems, and we provide experimental evidence that the two parameters can behave in a different manner.",
+                links: {
+                    official: "https://link.springer.com/article/10.1007/s10472-005-7033-2",
+                }
+		},
+	        {
+                id: 23,
+                title: "Threshold properties of random boolean constraint satisfaction problems",
+                    authors: "Gabriel Istrate",
+                year: 2005,
+                type: "Journal Paper",
+                topic: "Phase Transitions",
+                venue: "Discrete Applied Mathematics",
+                    volume: "153(3), 141-152",
+                isTop10: false,
+                abstract: "We study threshold properties of random constraint satisfaction problems under a probabilistic model due to Molloy [Models for random constraint satisfaction problems, in: Proceedings of the 32nd ACM Symposium on Theory of Computing, 2002]. We give a sufficient condition for the existence of a sharp threshold. In the boolean case, it gives an independent proof for the more difficult half of a classification result conjectured by Creignou and Daudé [Generalized satisfiability problems: minimal elements and phase transitions. Theor. Comput. Sci. 302(1–3) (2003) 417–430], proved in a restricted case by the same authors [Combinatorial sharpness criterion and phase transition classification for random CSPs, Inform. Comput. 190(2) (2004) 220–238], and established by them [Coarse and sharp thresholds for random generalized satisfiability problems, in: M. Drmota, P. Flajolet, D. Gardy, B. Gittenberger (Eds.), Mathematics and Computer Science III: Algorithms, Trees, Combinatorics and Probabilities, Birkhauser, Basel, September 2004, pp. 507–517] while this paper was in the refereeing process.",
+                links: {
+                    official: "https://doi.org/10.1016/j.dam.2005.05.010",
+                }
+		},
+	    {
+                id: 24,
+                title: "Towards Generative Activity-based Models for Large-scale Socio-technical Simulations",
+                authors: "Gabriel Istrate, Anders Hansson, C.D. Tallman,  Leticia Cuellar-Hengartner, Nicholas Hengartner",
+                year: 2005,
+                type: "Conference Paper",
+                topic: "Social Simulations",
+                venue: "Proceedings of The AGENT 2006 Conference 'Social Agents. Results and Prospects'",
+                volume: "ANL/DIS-06-7, ISBN 0-9679178-7-9, co-sponsored by Argonne National Laboratory and The University of Chicago",
+                isTop10: false,
+                abstract: "",
+                links: {
+                    free: "http://gabriel-istrate.github.io/files/Agent2006.pdf",
+                }
+            },
+        ];
 
-
+        let filteredPapers = [...papers];
+        
+        // Initialize the application
+        function init() {
+            populateFilters();
+            displayPapers();
+            updateCount();
+        }
+        
+        // Populate filter dropdowns with unique values
+        function populateFilters() {
+            const years = [...new Set(papers.map(p => p.year))].sort((a, b) => b - a);
+            const topics = [...new Set(papers.map(p => p.topic))].sort();
+            
+            const yearSelect = document.getElementById('year');
+            const topicSelect = document.getElementById('topic');
+            
+            years.forEach(year => {
+                const option = document.createElement('option');
+                option.value = year;
+                option.textContent = year;
+                yearSelect.appendChild(option);
+            });
+            
+            topics.forEach(topic => {
+                const option = document.createElement('option');
+                option.value = topic;
+                option.textContent = topic;
+                topicSelect.appendChild(option);
+            });
+        }
+        
+        // Display papers
+        function displayPapers() {
+            const container = document.getElementById('papersContainer');
+            const noPapers = document.getElementById('noPapers');
+            
+            if (filteredPapers.length === 0) {
+                container.innerHTML = '';
+                noPapers.style.display = 'block';
+                return;
+            }
+            
+            noPapers.style.display = 'none';
+            
+            container.innerHTML = filteredPapers.map(paper => `
+                <div class="paper">
+                    <h2 class="paper-title">${paper.title}</h2>
+                    <div class="paper-authors">${paper.authors}</div>
+                    <div class="paper-details">${paper.venue} ${paper.volume} (${paper.year})</div>
+  <!--                  
+                    <div class="paper-meta">
+                        ${paper.isTop10 ? '<span class="badge badge-importance">Top 10</span>' : ''}
+                        <span class="badge badge-type">${paper.type}</span>
+                        <span class="badge badge-year">${paper.year}</span>
+                        <span class="badge badge-topic">${paper.topic}</span>
+                    </div>
+     -->                
+                    <button class="abstract-toggle" onclick="toggleAbstract(${paper.id})">
+                        Show Abstract
+                    </button>
+                    
+                    <div class="abstract" id="abstract-${paper.id}">
+                        ${paper.abstract}
+                    </div>
+                    
+                    <div class="links">
+                        ${paper.links.official ? `<a href="${paper.links.official}" class="link link-official" target="_blank">Official Link</a>` : ''}
+                        ${paper.links.free ? `<a href="${paper.links.free}" class="link link-free" target="_blank">Free Version</a>` : ''}
+                        ${paper.links.video ? `<a href="${paper.links.video}" class="link link-video" target="_blank">Video</a>` : ''}
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        // Toggle abstract visibility
+        function toggleAbstract(id) {
+            const abstract = document.getElementById(`abstract-${id}`);
+            const button = abstract.previousElementSibling;
+            
+            if (abstract.classList.contains('show')) {
+                abstract.classList.remove('show');
+                button.textContent = 'Show Abstract';
+            } else {
+                abstract.classList.add('show');
+                button.textContent = 'Hide Abstract';
+            }
+        }
+        
+        // Filter papers based on selected criteria
+        function filterPapers() {
+            const importance = document.getElementById('importance').value;
+            const type = document.getElementById('type').value;
+            const year = document.getElementById('year').value;
+            const topic = document.getElementById('topic').value;
+            
+            filteredPapers = papers.filter(paper => {
+                if (importance === 'top10' && !paper.isTop10) return false;
+                if (type !== 'all' && paper.type !== type) return false;
+                if (year !== 'all' && paper.year.toString() !== year) return false;
+                if (topic !== 'all' && paper.topic !== topic) return false;
+                return true;
+            });
+            
+            // Sort by year (newest first)
+            filteredPapers.sort((a, b) => b.year - a.year);
+            
+            displayPapers();
+            updateCount();
+        }
+        
+        // Update papers count
+        function updateCount() {
+            const count = filteredPapers.length;
+            document.getElementById('papersCount').textContent = 
+                `Showing ${count} publication${count !== 1 ? 's' : ''}`;
+        }
+        
+        // Reset all filters
+        function resetFilters() {
+            document.getElementById('importance').value = 'all';
+            document.getElementById('type').value = 'all';
+            document.getElementById('year').value = 'all';
+            document.getElementById('topic').value = 'all';
+            filterPapers();
+        }
+        
+        // Add event listeners
+        document.getElementById('importance').addEventListener('change', filterPapers);
+        document.getElementById('type').addEventListener('change', filterPapers);
+        document.getElementById('year').addEventListener('change', filterPapers);
+        document.getElementById('topic').addEventListener('change', filterPapers);
+        
+        // Initialize the application
+        init();
+    </script>
 </body>
 </html>
