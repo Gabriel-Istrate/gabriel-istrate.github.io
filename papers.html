@@ -651,9 +651,9 @@
                 }
             },
 	     {
-                id: 20,
+                id: 19,
                 title: "AdHopNET: Integrated Tool for End-to-End Analysis of Extremely Large Next Generation Communication Networks",
-                authors: "K.A. Atkins, C.L. Barret, R.J. Beckman, S.G. Eubank, N.W. Hengarter, G. Istrate, A.V.S. Kumar, M.V. Marathe, H.S. Mortveit, C.M. Reidys, P.R. Romero, R.A. Pistone, J.P. Smith, P.E. Stretz, C.D. Engelhart, M. Droza, M.M. Morin, S.S. Pathak, S. Zust, S.S. Ravi",
+                authors: "K.A. Atkins, C.L. Barrett, R.J. Beckman, S.G. Eubank, N.W. Hengarter, G. Istrate, A.V.S. Kumar, M.V. Marathe, H.S. Mortveit, C.M. Reidys, P.R. Romero, R.A. Pistone, J.P. Smith, P.E. Stretz, C.D. Engelhart, M. Droza, M.M. Morin, S.S. Pathak, S. Zust, S.S. Ravi",
                 year: 2003,
                 type: "Tech Report",
                 topic: "Engineering",
@@ -669,7 +669,7 @@
                 }
              },
 	    {
-                id: 21,
+                id: 20,
                 title: "On the satisfiability of random k-Horn formulae",
                 authors: "Gabriel Istrate",
                 year: 2004,
@@ -684,7 +684,7 @@
                 }
             },
 	        {
-                id: 22,
+                id: 21,
                 title: "Spines of random constraint satisfaction problems: definition and connection with computational complexity",
                     authors: "Gabriel Istrate, Stefan Boettcher and Allon G. Percus",
                 year: 2005,
@@ -699,7 +699,7 @@
                 }
 		},
 	        {
-                id: 23,
+                id: 22,
                 title: "Threshold properties of random boolean constraint satisfaction problems",
                     authors: "Gabriel Istrate",
                 year: 2005,
@@ -714,7 +714,7 @@
                 }
 		},
 	    {
-                id: 24,
+                id: 23,
                 title: "Towards Generative Activity-based Models for Large-scale Socio-technical Simulations",
                 authors: "Gabriel Istrate, Anders Hansson, C.D. Tallman,  Leticia Cuellar-Hengartner, Nicholas Hengartner",
                 year: 2005,
@@ -727,7 +727,73 @@
                 links: {
                     free: "http://gabriel-istrate.github.io/files/Agent2006.pdf",
                 }
+        },
+	 {
+                id: 24,
+                title: "Combinatorics of TCP Reordering",
+                authors: "Gabriel Istrate, Anders Hansson, Shiva Prasad Kasiviswanathan",
+                year: 2006,
+                type: "Journal Paper",
+                topic: "Combinatorics of Networking",
+                venue: "Journal of Combinatorial Optimization",
+                volume: "12(1), 57-70",
+                isTop10: false,
+                abstract: "We study a combinatorial problem motivated by a receiver-oriented model of TCP traffic from Istrate et al. (2006), that incorporates information on both arrival times, and the dynamics of packet IDs. An important component of this model is a many-to-one mapping FB from sequences of IDs into a sequence of buffer sizes. We show that: i) Given a buffer sequence B, constructing a sequence A of IDs that belongs to the preimage of B is no harder than finding matchings in bipartite graph. ii) Counting the number of sequences A of packet IDs that belong to the preimage of B can be done in linear time in the special case when there exists a constant upper bound on the maximum entry in B. iii) This problem also has a fully polynomial randomized approximation scheme when we have a constant upper bound on the number of repeats in the packet sequences in the preimage. We also provide experimental evidence that the two previous results suffice to efficiently count the number of preimages for buffer sequences observed in real TCP data.",
+                links: {
+                    free: "http://gabriel-istrate.github.io/files/Agent2006.pdf",
+                }
+             },
+
+
+	         {
+                id: 25,
+                title: "Strong Edge Coloring for Channel Assignment in Wireless Radio Networks",
+                authors: "Christopher L. Barrett, Gabriel Istrate, V.S. Anil Kumar, Madhav V. Marathe, and Shripad Thite",
+                year: 2006,
+                type: "Conference Paper",
+                topic: "Approximation Algorithms",
+                venue: "Proceedings of the 1st IEEE Workshop on Foundations of Wireless Networks",
+                volume: "I.E.E.E. Press",
+                isTop10: true,
+                abstract: "We give efficient sequential and distributed approximation algorithms for strong edge coloring graphs modeling wireless networks. Strong edge coloring is equivalent to computing a conflict-free assignment of channels or frequencies to pairwise links between transceivers in the network",
+                 links: {
+		    official: "https://ieeexplore.ieee.org/abstract/document/1598948", 
+                    free: "",
+                }
+	},
+	{
+                id: 26,
+                title: "Semantic Compression of TCP Traces",
+                authors: "Gabriel Istrate, Anders Hansson, Sunil Thulasidasan, Madhav V. Marathe, and Christopher L. Barrett",
+                year: 2006,
+                type: "Conference Paper",
+                topic: "Applied Computer Science",
+                venue: "Proceedings of IFIP Networking 2006 Conference",
+                volume: "Lecture Notes in Computer Science 3976, 123-135, Springer Verlag",
+                isTop10: false,
+                abstract: "We propose a new methodology, Restored, for model-based storage and regeneration of TCP traces. Restored provides significant data compression by exploiting semantics of TCP. Experiments show that Restored can achieve over 10,000-fold compression ratios for some really large input connections, while still being able to recover several structural and QoS measures.",
+                links: {
+		     official: "https://link.springer.com/chapter/10.1007/11753810_11", 
+                    free: "",
+                }
             },
+	  {
+                id: 27,
+                title: "Packet reordering metrics: some methodological considerations",
+                authors: "Gabriel Istrate, Anders Hansson and Guanhua Yan",
+                year: 2006,
+                type: "Conference Paper",
+                topic: "Combinatorics of Networking",
+                venue: "Proceedings of the Second International Conference on Networking and Services (ICNS 06)",
+                volume: "IEEE Press",
+                isTop10: false,
+                abstract: "Characterizing what makes a packet reordering metric meaningful is a problem that has attracted significant interest, but it still lacks a universally accepted solution. We contribute to this discussion by investigating some theoretical concepts that make the following simple intuitions precise: (1). A metric that is inconsistent, i.e. gives different values on two similar TCP traces, should not be regarded as useful. (2). We formalize the notion of two traces being ;identical modulo unimportant details; using similarity relations. (3). If 'real-life' traces differ from random sequences by always satisfying certain reorder invariants, then we should only use traces satisfying these invariants when investigating the consistency of a reordering metric. We illustrate these concepts in the context of Restored, an approach to semantic compression of TCP traces [10]. In particular, we discuss the consistency of two metrics defined by Jayasumana et al. [1, 12] with respect to the similarity notions defined in [8, 9, 10]",
+                 links: {
+		    official: "https://ieeexplore.ieee.org/document/1690476", 
+                    free: "",
+                }
+             },
+	     
         ];
 
         let filteredPapers = [...papers];
@@ -735,6 +801,7 @@
         // Initialize the application
         function init() {
             populateFilters();
+	    resetFilters();
             displayPapers();
             updateCount();
         }
