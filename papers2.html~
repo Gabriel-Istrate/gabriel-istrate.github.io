@@ -176,10 +176,6 @@
             background: linear-gradient(45deg, #26de81, #20bf6b);
             color: white;
         }
-	.badge-venue {
-            background: linear-gradient(45deg, #26de81, #20bf6b);
-            color: white;
-        }
         
         .abstract-toggle {
             background: linear-gradient(45deg, #667eea, #764ba2);
@@ -292,12 +288,9 @@
 </head>
 <body>
     <div class="container">
-      <h1>My Publications (under construction!)</h1>
-
-      
+        <h1>My Publications (under construction!)</h1>
         
-      <div class="filters">
-
+        <div class="filters">
             <div class="filter-group">
                 <label for="importance">Importance:</label>
                 <select id="importance">
@@ -305,25 +298,9 @@
                     <option value="top10">Top 10 papers</option>
                 </select>
             </div>
-
-	    <div class="filter-group">
-                <label for="topic">Topic:</label>
-                <select id="topic">
-                    <option value="all">All topics</option>
-                </select>
-            </div>
-
-
-	    	<div class="filter-group">
-                <label for="pubvenue">Venue:</label>
-                <select id="pubvenue">
-                    <option value="all">All venues</option>
-                </select>
-            </div>
-	    
             
             <div class="filter-group">
-                <label for="type">Type:</label>
+                <label for="type">Publication Type:</label>
                 <select id="type">
                     <option value="all">All types</option>
                     <option value="Book">Book</option>
@@ -341,8 +318,12 @@
                 </select>
             </div>
             
-            
-	    
+            <div class="filter-group">
+                <label for="topic">Topic:</label>
+                <select id="topic">
+                    <option value="all">All topics</option>
+                </select>
+            </div>
             
             <div class="filter-group">
                 <button class="reset-btn" onclick="resetFilters()">Reset Filters</button>
@@ -369,7 +350,6 @@
                 type: "Journal Paper",
                 topic: "Formal Languages",
                 venue: "Bulletin Mathematique de la Societe des Sciences Mathematiques de Roumanie",
-		pubvenue: "Bulletin Mathematique",
                 volume: "vol. 33(81), no.4, pp. 335-338",
                 isTop10: false,
                 abstract: "We.",
@@ -387,7 +367,6 @@
                 type: "Journal Paper",
                 topic: "Computability Theory",
                 venue: "Analele Univ. București, Mat.-Info.",
-		pubvenue: "Annals of Univ. Bucharest",
                 volume: "vol. 54, no. 8, pp. 1-36",
                 isTop10: false,
                 abstract: "We.",
@@ -405,7 +384,6 @@
                 type: "Journal Paper",
                 topic: "Real Analysis",
                 venue: "Real Analysis Exchange",
-		pubvenue: "Real Analysis Exchange",
                 volume: "17 (2), 535-544",
                 isTop10: false,
                 abstract: "We.",
@@ -421,8 +399,7 @@
                 year: 1991,
                 type: "Journal Paper",
                 topic: "Computability Theory",
-                 venue: "Theoretical Computer Science",
-		 pubvenue: "Theoretical Computer Science",
+                venue: "Theoretical Computer Science",
                 volume: "82 (1), 151-155",
                 isTop10: false,
                 abstract: "We.",
@@ -439,7 +416,6 @@
                 type: "Journal Paper",
                 topic: "Computability Theory",
                 venue: "Zeischr. fur Math. Logik und Grundlagen d. Math.",
-		pubvenue: "Math. Logic Quarterly",
                 volume: "38, 169-178",
                 isTop10: false,
                 abstract: "Using recursive variants of Baire notions of nowhere dense and meagre sets we study the topological size of speedable and infinitely often speedable functions in a machine-independent framework. We show that the set of speedable functions is not “small” whereas the set of infinitely often speedable functions is “large”. In this way we offer partial answers to a question in [4]",
@@ -457,7 +433,6 @@
                 type: "Journal Paper",
                 topic: "Combinatorics on Words",
                 venue: "Discrete Applied Mathematics",
-		pubvenue: "Discrete Applied Mathematics",
                 volume: "50(2), 201-203",
                 isTop10: false,
                 abstract: "",
@@ -475,7 +450,6 @@
                 type: "Journal Paper",
                 topic: "Combinatorics on Words",
                 venue: "Discrete Applied Mathematics",
-		pubvenue: "Discrete Applied Mathematics",
                 volume: "38, 169-178",
                 isTop10: false,
                 abstract: "",
@@ -493,7 +467,6 @@
                 type: "Journal Paper",
                 topic: "Real Analysis",
                 venue: "Real Analysis Exchange",
-		pubvenue: "Real Analysis Exchange", 
                 volume: "20(2),842-846",
                 isTop10: false,
                 abstract: "",
@@ -511,7 +484,6 @@
                 type: "Journal Paper",
                 topic: "Formal Languages",
                 venue: "Mathematical Linguistics and Related Topics. Paper in the honor of Solomon Marcus's 70'th Birthday",
-		pubvenue: "Books",
                 volume: "Gh. Paun (ed.). Editura Academiei Romane, 191-194.",
                 isTop10: false,
                 abstract: "",
@@ -529,7 +501,6 @@
                 type: "Tech Report",
                 topic: "Computational Complexity",
                 venue: "University of Rochester",
-		pubvenue: "TR University of Rochester",
                 volume: "URCS-TR 644",
                 isTop10: false,
                 abstract: "",
@@ -547,7 +518,6 @@
                 type: "Tech Report",
                 topic: "Computational Complexity",
                 venue: "University of Rochester",
-		pubvenue: "TR University of Rochester",
                 volume: "URCS-TR 662",
                 isTop10: true,
                 abstract: "",
@@ -565,7 +535,6 @@
                 type: "Journal Paper",
                 topic: "Formal Languages",
                 venue: "Information Processing Letters",
-		pubvenue: "Information Processing Letters",
                 volume: "62(4),171-176",
                 isTop10: false,
                 abstract: "",
@@ -583,7 +552,6 @@
                 type: "Conference Paper",
                 topic: "Computational Complexity",
                  venue: "Proceedings of the Third International Conference on the Principles and Practice of Constraint Programming (CP'97), Linz, Austria",
-		 pubvenue: "CP Conferences",
                  volume: "Gerd Smolka (ed.), Lecture Notes in Computer Science 1330, 136-149, Springer Verlag",
                 isTop10: false,
                 abstract: "",
@@ -600,8 +568,7 @@
                 year: 1999,
                 type: "Journal Paper",
                 topic: "Coding Theory",
-                venue: "Journal of Universal Computer Science",
-		pubvenue: "Journal of Universal Computer Science",
+                 venue: "Journal of Universal Computer Science",
                 volume: "5(12),817-827",
                 isTop10: false,
                 abstract: "This paper computationally obtains optimal bounded-weight, binary, error-correcting codes for a variety of distance bounds and dimensions. We compare the sizes of our codes to the sizes of optimal constant-weight, binary, error-correcting codes, and evaluate the differences.",
@@ -619,7 +586,6 @@
                 type: "Conference Paper",
                 topic: "Phase Transitions",
                  venue: "Proceedings 15th Annual IEEE Conference on Computational Complexity (CCC'00)",
-		 pubvenue: "CCC Conferences", 
                 volume: "104-115",
                 isTop10: false,
                 abstract: "Phase transitions in combinatorial problems have recently been shown to be useful in locating 'hard' instances of combinatorial problems. The connection between computational complexity and the existence of phase transitions has been addressed in statistical mechanics and artificial intelligence, but not studied rigorously. We take a first step in this direction by investigating the existence of sharp thresholds for the class of generalized satisfiability problems, defined by T.J. Schaefer (1978). In the case when all constraints have a special clausal form we completely characterize the generalized satisfiability problems that have a sharp threshold. While NP-completeness does not imply the sharpness of the threshold, our result suggests that the class of counter examples is rather limited, as all such counter examples can be predicted, with constant success probability by a single procedure.",
@@ -637,7 +603,6 @@
                 type: "Journal Paper",
                 topic: "Markov Chains",
                 venue: "Combinatorics, Probability and Computing",
-		pubvenue: "Combinatorics, Probability and Computing", 
                 volume: "11(2), 135-147",
                 isTop10: false,
                 abstract: "We consider a stochastic process based on the iterated prisoner's dilemma game. During the game, each of n players has a state, either cooperate or defect. The players are connected by an ‘interaction graph’. During each step of the process, an edge of the graph is chosen uniformly at random and the states of the players connected by the edge are modified according to the Pavlov strategy. The process converges to a unique absorbing state in which all players cooperate. We prove two conjectures of Kittock: the convergence rate is exponential in n when the interaction graph is a complete graph, and it is polynomial in n when the interaction graph is a cycle. In fact, we show that the rate is O(n log n) in the latter case.",
@@ -656,8 +621,7 @@
                 year: 2001,
                 type: "Conference Paper",
                 topic: "Phase Transitions",
-                 venue: "Proceedings of SODA'2001, the ACM-SIAM Symposium on Discrete Algorithms",
-		 pubvenue: "SODA Conferences", 
+                venue: "Proceedings of SODA'2001, the ACM-SIAM Symposium on Discrete Algorithms",
                 volume: "11(2), 135-147",
                 isTop10: true,
                 abstract: "Determining bounds for the random k-SAT threshold has been an active area of research in recent years [1, 3]. Yet, in spite of significant efforts, neither a tight analysis nor the structural properties of this threshold have been determined. In this paper we study random instances of two other canonical variations of satisfiability, 1-in-k SAT and Not-All-Equal 3-SAT. Like random k-SAT, each generative model has one parameter c= m/n, the ratio of clauses to variables. Also similarly to random k-SAT, we focus on  'threshold phenomena' occurring in these models and how they might relate to computational hardness.",
@@ -676,7 +640,6 @@
                 type: "Journal Paper",
                 topic: "Phase Transitions",
                 venue: "Random Structures and Algorithms",
-		pubvenue: "Random Structures and Algorithms", 
                 volume: "20(4), 483-506",
                 isTop10: true,
                 abstract: "",
@@ -694,8 +657,7 @@
                 year: 2003,
                 type: "Tech Report",
                 topic: "Engineering",
-                 venue: "Los Alamos National Laboratory",
-		 pubvenue: "LANL TR", 
+                venue: "Los Alamos National Laboratory",
                 volume: "Technical reports LA-UR-03-2076 and LA-UR-03-2077,",
                 isTop10: false,
                 abstract: "",
@@ -714,7 +676,6 @@
                 type: "Chapter in Book",
                 topic: "Phase Transitions",
                 venue: "Graphs, Morphisms, and Statistical Physics: Proceedings of the DIMACS Workshop on Graphs, Morphisms and Statistical Physics, March 19-21, 2001, DIMACS Center",
-		pubvenue: "Books", 
                 volume: "DIMACS Series in Discrete Mathematics and Theoretical Computer Science, vol. 63, 113-137",
                 isTop10: false,
                 abstract: " ",
@@ -729,8 +690,7 @@
                 year: 2005,
                 type: "Journal Paper",
                 topic: "Phase Transitions",
-                    venue: "Annals of Mathematics and Artificial Intelligence",
-		    pubvenue: "Annals of Mathematics and Artificial Intelligence", 
+                venue: "Annals of Mathematics and Artificial Intelligence",
                     volume: "44, 353-372",
                 isTop10: false,
                 abstract: "We study the connection between the order of phase transitions in combinatorial problems and the complexity of decision algorithms for such problems. We rigorously show that, for a class of random constraint satisfaction problems, a limited connection between the two phenomena indeed exists. Specifically, we extend the definition of the spine order parameter of Bollobás et al. [10] to random constraint satisfaction problems, rigorously showing that for such problems a discontinuity of the spine is associated with a $2^\Omega(n)$ resolution complexity (and thus a $2^\Omega(n)$ complexity of DPLL algorithms) on random instances. The two phenomena have a common underlying cause: the emergence of 'large' (linear size) minimally unsatisfiable subformulas of a random formula at the satisfiability phase transition. We present several further results that add weight to the intuition that random constraint satisfaction problems with a sharp threshold and a continuous spine are 'qualitatively similar to random 2-SAT'. Finally, we argue that it is the spine rather than the backbone parameter whose continuity has implications for the decision complexity of combinatorial problems, and we provide experimental evidence that the two parameters can behave in a different manner.",
@@ -745,8 +705,7 @@
                 year: 2005,
                 type: "Journal Paper",
                 topic: "Phase Transitions",
-                    venue: "Discrete Applied Mathematics",
-		    pubvenue: "Discrete Applied Mathematics", 
+                venue: "Discrete Applied Mathematics",
                     volume: "153(3), 141-152",
                 isTop10: false,
                 abstract: "We study threshold properties of random constraint satisfaction problems under a probabilistic model due to Molloy [Models for random constraint satisfaction problems, in: Proceedings of the 32nd ACM Symposium on Theory of Computing, 2002]. We give a sufficient condition for the existence of a sharp threshold. In the boolean case, it gives an independent proof for the more difficult half of a classification result conjectured by Creignou and Daudé [Generalized satisfiability problems: minimal elements and phase transitions. Theor. Comput. Sci. 302(1–3) (2003) 417–430], proved in a restricted case by the same authors [Combinatorial sharpness criterion and phase transition classification for random CSPs, Inform. Comput. 190(2) (2004) 220–238], and established by them [Coarse and sharp thresholds for random generalized satisfiability problems, in: M. Drmota, P. Flajolet, D. Gardy, B. Gittenberger (Eds.), Mathematics and Computer Science III: Algorithms, Trees, Combinatorics and Probabilities, Birkhauser, Basel, September 2004, pp. 507–517] while this paper was in the refereeing process.",
@@ -762,7 +721,6 @@
                 type: "Conference Paper",
                 topic: "Social Simulations",
                 venue: "Proceedings of The AGENT 2006 Conference 'Social Agents. Results and Prospects'",
-		pubvenue: "AGENT Conferences", 
                 volume: "ANL/DIS-06-7, ISBN 0-9679178-7-9, co-sponsored by Argonne National Laboratory and The University of Chicago",
                 isTop10: false,
                 abstract: "",
@@ -777,8 +735,7 @@
                 year: 2006,
                 type: "Journal Paper",
                 topic: "Combinatorics of Networking",
-             venue: "Journal of Combinatorial Optimization",
-	     pubvenue: "Journal of Combinatorial Optimization", 
+                venue: "Journal of Combinatorial Optimization",
                 volume: "12(1), 57-70",
                 isTop10: false,
                 abstract: "We study a combinatorial problem motivated by a receiver-oriented model of TCP traffic from Istrate et al. (2006), that incorporates information on both arrival times, and the dynamics of packet IDs. An important component of this model is a many-to-one mapping FB from sequences of IDs into a sequence of buffer sizes. We show that: i) Given a buffer sequence B, constructing a sequence A of IDs that belongs to the preimage of B is no harder than finding matchings in bipartite graph. ii) Counting the number of sequences A of packet IDs that belong to the preimage of B can be done in linear time in the special case when there exists a constant upper bound on the maximum entry in B. iii) This problem also has a fully polynomial randomized approximation scheme when we have a constant upper bound on the number of repeats in the packet sequences in the preimage. We also provide experimental evidence that the two previous results suffice to efficiently count the number of preimages for buffer sequences observed in real TCP data.",
@@ -795,8 +752,7 @@
                 year: 2006,
                 type: "Conference Paper",
                 topic: "Approximation Algorithms",
-                     venue: "Proceedings of the 1st IEEE Workshop on Foundations of Wireless Networks",
-		     pubvenue: "IEEE Conference Proceedings", 
+                venue: "Proceedings of the 1st IEEE Workshop on Foundations of Wireless Networks",
                 volume: "I.E.E.E. Press",
                 isTop10: true,
                 abstract: "We give efficient sequential and distributed approximation algorithms for strong edge coloring graphs modeling wireless networks. Strong edge coloring is equivalent to computing a conflict-free assignment of channels or frequencies to pairwise links between transceivers in the network",
@@ -812,8 +768,7 @@
                 year: 2006,
                 type: "Conference Paper",
                 topic: "Applied Computer Science",
-            venue: "Proceedings of IFIP Networking 2006 Conference",
-	    pubvenue: "IFIP Networking Conferences", 
+                venue: "Proceedings of IFIP Networking 2006 Conference",
                 volume: "Lecture Notes in Computer Science 3976, 123-135, Springer Verlag",
                 isTop10: false,
                 abstract: "We propose a new methodology, Restored, for model-based storage and regeneration of TCP traces. Restored provides significant data compression by exploiting semantics of TCP. Experiments show that Restored can achieve over 10,000-fold compression ratios for some really large input connections, while still being able to recover several structural and QoS measures.",
@@ -829,8 +784,7 @@
                 year: 2006,
                 type: "Conference Paper",
                 topic: "Combinatorics of Networking",
-              venue: "Proceedings of the Second International Conference on Networking and Services (ICNS 06)",
-	      pubvenue: "IEEE Conference Proceedings", 
+                venue: "Proceedings of the Second International Conference on Networking and Services (ICNS 06)",
                 volume: "IEEE Press",
                 isTop10: false,
                 abstract: "Characterizing what makes a packet reordering metric meaningful is a problem that has attracted significant interest, but it still lacks a universally accepted solution. We contribute to this discussion by investigating some theoretical concepts that make the following simple intuitions precise: (1). A metric that is inconsistent, i.e. gives different values on two similar TCP traces, should not be regarded as useful. (2). We formalize the notion of two traces being ;identical modulo unimportant details; using similarity relations. (3). If 'real-life' traces differ from random sequences by always satisfying certain reorder invariants, then we should only use traces satisfying these invariants when investigating the consistency of a reordering metric. We illustrate these concepts in the context of Restored, an approach to semantic compression of TCP traces [10]. In particular, we discuss the consistency of two metrics defined by Jayasumana et al. [1, 12] with respect to the similarity notions defined in [8, 9, 10]",
@@ -855,13 +809,10 @@
         // Populate filter dropdowns with unique values
         function populateFilters() {
             const years = [...new Set(papers.map(p => p.year))].sort((a, b) => b - a);
-        const topics = [...new Set(papers.map(p => p.topic))].sort();
-		const pubvenues = [...new Set(papers.map(p => p.pubvenue))].sort();
+            const topics = [...new Set(papers.map(p => p.topic))].sort();
             
             const yearSelect = document.getElementById('year');
-        const topicSelect = document.getElementById('topic');
-	const pubvenueSelect = document.getElementById('pubvenue'); 
-
+            const topicSelect = document.getElementById('topic');
             
             years.forEach(year => {
                 const option = document.createElement('option');
@@ -875,12 +826,6 @@
                 option.value = topic;
                 option.textContent = topic;
                 topicSelect.appendChild(option);
-        });
-	pubvenues.forEach(pubvenue => {
-                const option = document.createElement('option');
-                option.value = pubvenue;
-                option.textContent = pubvenue;
-                pubvenueSelect.appendChild(option);
             });
         }
         
@@ -908,7 +853,6 @@
                         <span class="badge badge-type">${paper.type}</span>
                         <span class="badge badge-year">${paper.year}</span>
                         <span class="badge badge-topic">${paper.topic}</span>
-                        <span class="badge badge-venue">${paper.pubvenue}</span>
                     </div>
      -->                
                     <button class="abstract-toggle" onclick="toggleAbstract(${paper.id})">
@@ -947,15 +891,13 @@
             const importance = document.getElementById('importance').value;
             const type = document.getElementById('type').value;
             const year = document.getElementById('year').value;
-		const topic = document.getElementById('topic').value;
-		const pubvenue = document.getElementById('pubvenue').value; 
+            const topic = document.getElementById('topic').value;
             
             filteredPapers = papers.filter(paper => {
                 if (importance === 'top10' && !paper.isTop10) return false;
                 if (type !== 'all' && paper.type !== type) return false;
                 if (year !== 'all' && paper.year.toString() !== year) return false;
                 if (topic !== 'all' && paper.topic !== topic) return false;
-		if (pubvenue !== 'all' && paper.pubvenue !== pubvenue) return false;
                 return true;
             });
             
@@ -974,8 +916,7 @@
         }
         
         // Reset all filters
-      function resetFilters() {
-	  document.getElementById('pubvenue').value = 'all';
+        function resetFilters() {
             document.getElementById('importance').value = 'all';
             document.getElementById('type').value = 'all';
             document.getElementById('year').value = 'all';
@@ -987,8 +928,7 @@
         document.getElementById('importance').addEventListener('change', filterPapers);
         document.getElementById('type').addEventListener('change', filterPapers);
         document.getElementById('year').addEventListener('change', filterPapers);
-		document.getElementById('topic').addEventListener('change', filterPapers);
-		document.getElementById('pubvenue').addEventListener('change', filterPapers);
+        document.getElementById('topic').addEventListener('change', filterPapers);
         
         // Initialize the application
         init();
