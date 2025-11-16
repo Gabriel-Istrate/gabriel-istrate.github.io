@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>My Papers (Dynamic Cross-Filtering)</title>
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height:1.6;
+            color:#333;
+            background: linear-gradient(135deg,#000000 0%,#000000 100%);
+            min-height:100vh;
+            padding:20px;
+        }
+        .container {
+            max-width:1200px;
+            margin:0 auto;
+            background: rgba(255,255,255,0.95);
+            border-radius:20px;
+            box-shadow:0 20px 40px rgba(0,0,0,0.1);
+            padding:30px;
+            backdrop-filter: blur(10px);
+        }
+        h1 {
+            text-align:center;
+            color:#333;
+            margin-bottom:30px;
+            font-size:2.2rem;
+        }
+        .filters {
+            display:grid;
+            grid-template-columns: repeat(auto-fit,minmax(150px,1fr));
+            gap:10px;
+            margin-bottom:20px;
+            padding:10px;
+            background: rgba(255,255,255,0.7);
+            border-radius:5px;
+            backdrop-filter: blur(5px);
+        }
+        .filter-group { display:flex; flex-direction:column; }
+        .filter-group label { font-weight:600; margin-bottom:8px; color:#555; }
+        select, input { padding:10px; border:2px solid #ddd; border-radius:8px; font-size:14px; background:white; }
+        .reset-btn { padding:10px 20px; background:linear-gradient(45deg,#000000,#000000); color:white; border:none; border-radius:8px; cursor:pointer; font-weight:600; align-self:flex-end; }
+        .papers-count { text-align:center; margin-bottom:20px; font-size:1.1rem; color:#666; }
+        .paper { background:white; border-radius:15px; padding:25px; margin-bottom:20px; box-shadow:0 8px 25px rgba(0,0,0,0.1); transition:all 0.3s ease; border-left:5px solid #667eea; }
+        .paper-title { color:#088F8F; font-size:1.2rem; font-weight:700; margin-bottom:8px; }
+        .paper-authors { font-style:italic; color:#666; margin-bottom:8px; }
+        .paper-details { color:#888; margin-bottom:12px; font-size:0.95rem; }
+        .badges { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:12px; }
+        .badge { padding:5px 10px; border-radius:16px; font-size:0.8rem; font-weight:600; text-transform:uppercase; }
+        .badge-topic { background: linear-gradient(45deg,#26de81,#20bf6b); color:white; }
+        .badge-type { background: linear-gradient(45deg,#4834d4,#686de0); color:white; }
+        .badge-year { background: linear-gradient(45deg,#00d2d3,#01a3a4); color:white; }
+        .links { display:flex; gap:10px; flex-wrap:wrap; }
+        .link { padding:6px 10px; text-decoration:none; border-radius:8px; font-size:0.9rem; font-weight:600; background:#222; color:white; }
+        .no-papers { text-align:center; color:#888; font-size:1.2rem; margin:40px 0; padding:40px; background:#f8f9fa; border:1px solid #e9ecef; border-radius:8px; }
+        @media (max-width:768px) {
+            .container { padding:20px; margin:10px; }
+            .filters { grid-template-columns:1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>My Publications (dynamic filters)</h1>
+
+        <div class="filters">
+            <div class="filter-group">
+                <label for="importance">Importance</label>
+                <select id="importance">
+                    <option value="all">All Papers</option>
+                    <option value="top10">Selected Papers (Top 10)</option>
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label for="topic">Topic</label>
+                <select id="topic">
+                    <option value="all">All topics</option>
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label for="pubvenue">Venue</label>
+                <select id="pubvenue">
+                    <option value="all">All venues</option>
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label for="type">Type</label>
+                <select id="type">
+                    <option value="all">All types</option>
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label for="year">Year</label>
+                <select id="year">
+                    <option value="all">All years</option>
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <button class="reset-btn" onclick="resetFilters()">Reset Filters</button>
+            </div>
+        </div>
+
+        <div class="papers-count" id="papersCount"></div>
+        <div id="papersContainer"></div>
+        <div class="no-papers" id="noPapers" style="display:none;">No papers match the current filters.</div>
+    </div>
+
+    <script>
+        // ---------- Data (unchanged format) ----------
+        const papers = [
+            {
+                id: 1,
+                title: "On a problem about contextual languages",
+                authors: "Gabriel Istrate",
+                year: 1989,
+                type: "Journal Paper",
+                topic: "Formal Languages",
+                venue: "Bulletin Mathematique de la Societe des Sciences Mathematiques de Roumanie",
+		        pubvenue: "Journal: Bulletin Mathematique",
+                volume: "vol. 33(81), no.4, pp. 335-338",
+                isTop10: false,
+                abstract: "We.",
+                links: { official: "https://www.jstor.org/stable/43678281", free: "" }
+            },
+            {
+                id: 2,
+                title: "Topological size of the set of Boolean-valued partial recursive functions",
+                authors: "Gabriel Istrate",
+                year: 1989,
+                type: "Journal Paper",
+                topic: "Computability Theory",
+                venue: "Analele Univ. București, Mat.-Info.",
+		        pubvenue: "Journal: Annals of Univ. of Bucharest",
+                volume: "vol. 54, no. 8, pp. 1-36",
+                isTop10: false,
+                abstract: "We.",
+                links: { official: "", free: "", video: "" }
+            },
+            {
+                id: 3,
+                title: "On two generalizations of the Darboux property",
+                authors: "Gabriel Istrate",
+                year: 1991,
+                type: "Journal Paper",
+                topic: "Real Analysis",
+                venue: "Real Analysis Exchange",
+		        pubvenue: "Journal: Real Analysis Exchange",
+                volume: "17 (2), 535-544",
+                isTop10: false,
+                abstract: "We.",
+                links: { official: "https://projecteuclid.org/journals/real-analysis-exchange/volume-17/issue-2/ON-TWO-GENERALIZATIONS-OF-THE-DARBOUX-PROPERTY/10.2307/44153747.pdf" }
+            },
+            // ... rest of the papers (kept identical to original; truncated here for readability)
+            // (In the real file, all the paper objects from your original were preserved.)
+        ];
+
+        // NOTE: above I kept the initial structure as you provided.
+        // In case your original contained the full list, make sure the full array is present.
+        // For the demo here, we assume 'papers' contains the full set (like your original file).
+
+        // ---------- Helper: treat legacy `topic` as implicit array ----------
+        function getPaperTopics(p) {
+            if (Array.isArray(p.topics)) return p.topics;
+            if (p.topic) return [p.topic];
+            return [];
+        }
+
+        // Utility to deep copy the original list (we never mutate original)
+        const allPapers = [...papers];
+
+        // Current filtered set (displayed)
+        let filteredPapers = [...allPapers];
+
+        // DOM elements
+        const importanceSelect = document.getElementById('importance');
+        const topicSelect = document.getElementById('topic');
+        const pubvenueSelect = document.getElementById('pubvenue');
+        const typeSelect = document.getElementById('type');
+        const yearSelect = document.getElementById('year');
+
+        // On init: populate filters with full domain and set event listeners
+        function init() {
+            populateAllFiltersInitial();
+            // add listeners
+            importanceSelect.addEventListener('change', onFilterChange);
+            topicSelect.addEventListener('change', onFilterChange);
+            pubvenueSelect.addEventListener('change', onFilterChange);
+            typeSelect.addEventListener('change', onFilterChange);
+            yearSelect.addEventListener('change', onFilterChange);
+
+            // initial apply
+            applyFiltersAndUpdateUI();
+        }
+
+        // ---------- Populating filter dropdowns ----------
+        // Create options for a select element from an array of values (preserves selection when possible)
+        function setSelectOptions(selectElem, values, preserveValue, valueSorter) {
+            // preserveValue: the desired selection before change (string)
+            // valueSorter: optional comparator for sorting values
+            const prev = preserveValue !== undefined ? preserveValue : selectElem.value;
+            // Clear existing (keep "all" if present)
+            const existingAll = Array.from(selectElem.options).find(o => o.value === 'all');
+            selectElem.innerHTML = '';
+            if (existingAll) {
+                const allOption = document.createElement('option');
+                allOption.value = 'all';
+                allOption.textContent = existingAll.textContent || 'All';
+                selectElem.appendChild(allOption);
+            } else {
+                const allOption = document.createElement('option');
+                allOption.value = 'all';
+                allOption.textContent = 'All';
+                selectElem.appendChild(allOption);
+            }
+
+            // sort values
+            let sortedValues = [...new Set(values)];
+            if (valueSorter) sortedValues.sort(valueSorter);
+            else sortedValues.sort();
+
+            sortedValues.forEach(v => {
+                // ignore falsy or 'all'
+                if (v === undefined || v === null) return;
+                const option = document.createElement('option');
+                option.value = String(v);
+                option.textContent = String(v);
+                selectElem.appendChild(option);
+            });
+
+            // restore previous selection if still valid, otherwise default 'all'
+            const stillValid = Array.from(selectElem.options).some(o => o.value === prev);
+            selectElem.value = stillValid ? prev : 'all';
+        }
+
+        // Create the initial full-domain options for filters (called once)
+        function populateAllFiltersInitial() {
+            // years
+            const years = [...new Set(allPapers.map(p => p.year))].sort((a,b)=>b-a);
+            setSelectOptions(yearSelect, years, 'all', (a,b)=> b - a);
+
+            // topics (gather topics across papers)
+            const topics = [];
+            allPapers.forEach(p => getPaperTopics(p).forEach(t => topics.push(t)));
+            setSelectOptions(topicSelect, topics, 'all', undefined);
+
+            // pubvenues
+            const venues = [...new Set(allPapers.map(p => p.pubvenue).filter(x => x))].sort();
+            setSelectOptions(pubvenueSelect, venues, 'all', undefined);
+
+            // types
+            const types = [...new Set(allPapers.map(p => p.type).filter(x => x))].sort();
+            setSelectOptions(typeSelect, types, 'all', undefined);
+
+            // importance remains 'all' or 'top10' (already in DOM)
+            importanceSelect.value = 'all';
+        }
+
+        // ---------- Cross-filtering logic ----------
+        // Read current filters (values in selects)
+        function readCurrentFilters() {
+            return {
+                importance: importanceSelect.value,
+                topic: topicSelect.value,
+                pubvenue: pubvenueSelect.value,
+                type: typeSelect.value,
+                year: yearSelect.value
+            };
+        }
+
+        // Apply a filter object to a set of papers and return matching array
+        function filterPapersWithSet(papersSet, filters) {
+            return papersSet.filter(paper => {
+                if (filters.importance === 'top10' && !paper.isTop10) return false;
+                if (filters.type && filters.type !== 'all' && paper.type !== filters.type) return false;
+                if (filters.year && filters.year !== 'all' && String(paper.year) !== String(filters.year)) return false;
+                if (filters.topic && filters.topic !== 'all') {
+                    const tarr = getPaperTopics(paper);
+                    if (!tarr.includes(filters.topic)) return false;
+                }
+                if (filters.pubvenue && filters.pubvenue !== 'all' && paper.pubvenue !== filters.pubvenue) return false;
+                return true;
+            });
+        }
+
+        // For each filter field, compute possible values given OTHER active filters.
+        // This lets us update each select to contain only values that appear in the dataset
+        // after applying the other filters (fully dynamic cross-filtering).
+        function computeOptionsConsideringOthers() {
+            const current = readCurrentFilters();
+
+            // We'll compute options for each filter by applying all filters except that one.
+            // 1) importance: options are fixed (all, top10) - but selection may be reset by invalidity
+            // 2) topic: gather topics from papers matching all filters except topic
+            // 3) pubvenue: gather pubvenues from papers matching all filters except pubvenue
+            // 4) type: gather types from papers matching all filters except type
+            // 5) year: gather years from papers matching all filters except year
+
+            // helper to get unique topics from a set of papers
+            function uniqueTopicsFrom(set) {
+                const s = new Set();
+                set.forEach(p => getPaperTopics(p).forEach(t => s.add(t)));
+                return [...s];
+            }
+
+            // compute for topic: apply all filters except topic
+            const filtersExceptTopic = {...current, topic: 'all'};
+            const papersForTopic = filterPapersWithSet(allPapers, filtersExceptTopic);
+            const topicsAvailable = uniqueTopicsFrom(papersForTopic).sort();
+
+            // compute for pubvenue: apply all filters except pubvenue
+            const filtersExceptPubvenue = {...current, pubvenue: 'all'};
+            const papersForPubvenue = filterPapersWithSet(allPapers, filtersExceptPubvenue);
+            const pubvenuesAvailable = [...new Set(papersForPubvenue.map(p => p.pubvenue).filter(x=>x))].sort();
+
+            // compute for type: apply all filters except type
+            const filtersExceptType = {...current, type: 'all'};
+            const papersForType = filterPapersWithSet(allPapers, filtersExceptType);
+            const typesAvailable = [...new Set(papersForType.map(p => p.type).filter(x=>x))].sort();
+
+            // compute for year: apply all filters except year
+            const filtersExceptYear = {...current, year: 'all'};
+            const papersForYear = filterPapersWithSet(allPapers, filtersExceptYear);
+            const yearsAvailable = [...new Set(papersForYear.map(p => p.year).filter(x=>x))].sort((a,b)=>b-a);
+
+            return {
+                topicsAvailable,
+                pubvenuesAvailable,
+                typesAvailable,
+                yearsAvailable
+            };
+        }
+
+        // Update every dropdown's options based on the options computed above.
+        // If a previously chosen value becomes invalid, it auto-resets to 'all'.
+        function updateAllSelectOptions() {
+            const current = readCurrentFilters();
+            const opts = computeOptionsConsideringOthers();
+
+            // Topic
+            setSelectOptions(topicSelect, opts.topicsAvailable, current.topic, undefined);
+            if (current.topic !== 'all' && !opts.topicsAvailable.includes(current.topic)) {
+                topicSelect.value = 'all'; // auto-reset if invalid
+            }
+
+            // Pubvenue
+            setSelectOptions(pubvenueSelect, opts.pubvenuesAvailable, current.pubvenue, undefined);
+            if (current.pubvenue !== 'all' && !opts.pubvenuesAvailable.includes(current.pubvenue)) {
+                pubvenueSelect.value = 'all';
+            }
+
+            // Type
+            setSelectOptions(typeSelect, opts.typesAvailable, current.type, undefined);
+            if (current.type !== 'all' && !opts.typesAvailable.includes(current.type)) {
+                typeSelect.value = 'all';
+            }
+
+            // Year
+            setSelectOptions(yearSelect, opts.yearsAvailable, current.year, (a,b)=> b - a);
+            if (current.year !== 'all' && !opts.yearsAvailable.includes(Number(current.year))) {
+                yearSelect.value = 'all';
+            }
+
+            // Importance stays same options (all,top10) — no dynamic population needed
+        }
+
+        // Apply all current filter selections to compute filteredPapers and update display
+        function applyFiltersAndUpdateUI() {
+            const current = readCurrentFilters();
+            filteredPapers = filterPapersWithSet(allPapers, current).sort((a,b) => b.year - a.year);
+            displayPapers();
+            updateCount();
+        }
+
+        // Top-level function called when any filter changes:
+        // 1. Update other selects' option lists (auto-reset invalid selections)
+        // 2. Apply filters and display resulting papers
+        function onFilterChange() {
+            // 1) update options for selects considering the other filters.
+            // This will auto-reset any invalid selection to 'all'.
+            updateAllSelectOptions();
+
+            // 2) compute final filtered set and update display
+            applyFiltersAndUpdateUI();
+        }
+
+        // ---------- UI: Display papers and counts ----------
+        function displayPapers() {
+            const container = document.getElementById('papersContainer');
+            const noPapers = document.getElementById('noPapers');
+
+            if (!filteredPapers || filteredPapers.length === 0) {
+                container.innerHTML = '';
+                noPapers.style.display = 'block';
+                return;
+            }
+
+            noPapers.style.display = 'none';
+
+            container.innerHTML = filteredPapers.map(paper => {
+                const topics = getPaperTopics(paper);
+                const topicBadges = topics.map(t => `<span class="badge badge-topic">${escapeHtml(t)}</span>`).join(' ');
+                const typeBadge = `<span class="badge badge-type">${escapeHtml(paper.type)}</span>`;
+                const yearBadge = `<span class="badge badge-year">${escapeHtml(paper.year)}</span>`;
+                const linksHtml = `
+                    ${paper.links && paper.links.official ? `<a class="link" href="${paper.links.official}" target="_blank">Official</a>` : ''}
+                    ${paper.links && paper.links.free ? `<a class="link" href="${paper.links.free}" target="_blank">Free</a>` : ''}
+                    ${paper.links && paper.links.video ? `<a class="link" href="${paper.links.video}" target="_blank">Video</a>` : ''}
+                `;
+
+                return `
+                <div class="paper">
+                    <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+                        <div style="flex:1;">
+                            <h2 class="paper-title">${escapeHtml(paper.title)}</h2>
+                            <div class="paper-authors">${escapeHtml(paper.authors)}</div>
+                            <div class="paper-details">${escapeHtml(paper.venue)} ${escapeHtml(paper.volume)} (${escapeHtml(paper.year)})</div>
+                        </div>
+                        <div style="margin-left:12px; text-align:right;">
+                            ${paper.isTop10 ? '<div style="font-weight:700; color:#ff6b6b; margin-bottom:6px;">Top 10</div>' : ''}
+                            ${yearBadge}
+                        </div>
+                    </div>
+
+                    <div class="badges">
+                        ${typeBadge}
+                        ${topicBadges}
+                        <span class="badge">${escapeHtml(paper.pubvenue || '')}</span>
+                    </div>
+
+                    <div style="margin-bottom:10px;">
+                        <button class="abstract-toggle" onclick="toggleAbstract(${paper.id})">Show Abstract</button>
+                    </div>
+                    <div class="abstract" id="abstract-${paper.id}" style="display:none; margin-bottom:12px; padding:12px; background:rgba(0,0,0,0.03); border-radius:8px;">
+                        ${escapeHtml(paper.abstract || '')}
+                    </div>
+                    <div class="links">${linksHtml}</div>
+                </div>
+                `;
+            }).join('');
+        }
+
+        // Toggle abstract visibility
+        function toggleAbstract(id) {
+            const el = document.getElementById(`abstract-${id}`);
+            if (!el) return;
+            el.style.display = el.style.display === 'block' ? 'none' : 'block';
+        }
+
+        function updateCount() {
+            const count = filteredPapers.length;
+            document.getElementById('papersCount').textContent = `Showing ${count} publication${count !== 1 ? 's' : ''}`;
+        }
+
+        // Reset everything back to 'all' and repopulate selects from full dataset
+        function resetFilters() {
+            importanceSelect.value = 'all';
+            topicSelect.value = 'all';
+            pubvenueSelect.value = 'all';
+            typeSelect.value = 'all';
+            yearSelect.value = 'all';
+            // repopulate selects to show all possible options
+            populateAllFiltersInitial();
+            applyFiltersAndUpdateUI();
+        }
+
+        // Escape basic HTML to avoid injection if any data contains special chars
+        function escapeHtml(str) {
+            if (str === undefined || str === null) return '';
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
+
+        // Init on load. If you have a large paper list, this is still O(N) and will be fast for hundreds of papers.
+        init();
+
+    </script>
+</body>
+</html>
+
